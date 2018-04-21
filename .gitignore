@@ -1,3 +1,4 @@
 LDProject.sln
 .vscode/settings.json
 UnityPackageManager/manifest.json
+*.meta
