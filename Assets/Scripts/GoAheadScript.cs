@@ -5,15 +5,25 @@ using UnityEngine;
 public class GoAheadScript : MonoBehaviour {
 
 	Vector3 direction;
-	float speed;
+	float speed = 0;
 
 	public static float redD;
 	public static float blueD;
+
+	Vector3 iniPos;
 	
+	void Awake ()
+	{
+		iniPos = transform.position;
+	}
+
 	public void Go(Vector3 dir, float sp)
 	{
+		GetComponent<Collider>().enabled = true;
+		transform.position = iniPos;
+		GetComponent<Rigidbody>().velocity = Vector3.zero;
 		direction = dir;
-		sp = speed;
+		speed = sp;
 	}
 
 	// Update is called once per frame
@@ -28,8 +38,17 @@ public class GoAheadScript : MonoBehaviour {
 			speed = 0;
 			
 			Vector3 vel = GetComponent<Rigidbody>().velocity;
-			GetComponent<Rigidbody>().AddForce(Vector3.up * vel.magnitude * 0.1f, ForceMode.Impulse);
-
+			GetComponent<Rigidbody>().AddForce(Vector3.up * vel.magnitude * 0.5f, ForceMode.Impulse);
+			StartCoroutine(disableCollider());
 		}
+
+	
+
+	}
+
+	IEnumerator disableCollider ()
+	{
+		yield return new WaitForSecondsRealtime(1);
+		GetComponent<Collider>().enabled = false;
 	}
 }
